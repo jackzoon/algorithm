@@ -2,6 +2,9 @@ package leetcode;
 
 import java.util.*;
 
+/**
+ * https://leetcode-cn.com/problems/3sum/submissions/
+ */
 public class P_015 {
 
     public static List<List<Integer>> threeSum(int[] nums) {
@@ -50,9 +53,39 @@ public class P_015 {
         return res;
     }
 
+    public static List<List<Integer>> threeSum2(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        int L,R,sum;
+        int n = nums.length;
+        Arrays.sort(nums);
+        for (int i = 0; i < n; i++) {
+            if (nums[i] > 0) {
+                break;
+            }
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            L = i + 1;
+            R = n - 1;
+            while (L < R) {
+                sum = nums[i] + nums[L] + nums[R];
+                if (sum == 0) {
+                    res.add(Arrays.asList(nums[i], nums[L++], nums[R--]));
+                    while (L<R && nums[L] == nums[L-1]) L++;
+                    while (L<R && nums[R] == nums[R+1]) R--;
+                } else if (sum > 0) {
+                    R--;
+                } else {
+                    L++;
+                }
+            }
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         int[] nums = {-1, 0, 1, 2, -1, -4};
-        threeSum1(nums).forEach(System.out::println);
+        threeSum2(nums).forEach(System.out::println);
 
     }
 }
